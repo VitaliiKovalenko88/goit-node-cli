@@ -2,7 +2,7 @@
   "name": "goit-node-cli",
   "description": "",
   "version": "1.0.0",
-  "main": "terminal.js",
+  "main": "index.js",
   "dependencies": {
     "colors": "^1.4.0",
     "commander": "^11.1.0",
