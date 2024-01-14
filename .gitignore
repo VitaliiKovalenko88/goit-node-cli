@@ -51,7 +51,7 @@ web_modules/
 
 # Optional npm cache directory
 .npm
-
+nodemon
 # Optional eslint cache
 .eslintcache
 
