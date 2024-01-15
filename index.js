@@ -7,7 +7,7 @@ program
   .option("-p, --phone <type>", "user phone");
 
 program.parse();
-import { getContactById, listContacts } from "./contacts.js";
+import { addContact, getContactById, listContacts, removeContact } from "./contacts.js";
 
 const options = program.opts();
 
@@ -28,10 +28,14 @@ async function invokeAction({ action, id, name, email, phone }) {
 
     case "add":
       // ... name email phone
+      const newContact = await addContact(name, email, phone)
+      console.log(newContact)
       break;
 
     case "remove":
       // ... id
+      const remoteContact = await removeContact(id);
+      console.log(remoteContact);
       break;
 
     default:

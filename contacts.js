@@ -1,14 +1,16 @@
+import { log } from "console";
 import fs from "fs/promises";
 import path from "path";
+import { nanoid } from 'nanoid'
 
 const contactsPath = path.resolve('./db/contacts.json');
-const getContacts = await fs.readFile(contactsPath)
+
 
 export async function listContacts() {
-  // ...твій код. Повертає масив контактів.
   try {
-
+    const getContacts = await fs.readFile(contactsPath);
     const contacts = JSON.parse(getContacts);
+
     return contacts;
 
   } catch (error) {
@@ -17,28 +19,54 @@ export async function listContacts() {
 }
 
 export async function getContactById(contactId) {
-  // ...твій код. Повертає об'єкт контакту з таким id. Повертає null, якщо контакт з таким id не знайдений.
   try {
-    ;
-    const contacts = JSON.parse(getContacts);
-    const contactById = contacts.find(contact => contact.id === contactId)
+    const contacts = await listContacts();
+    const contactById = contacts.find(contact => contact.id === contactId);
 
     return contactById ? contactById : null;
+
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 
 }
 
-async function removeContact(contactId) {
-  // ...твій код. Повертає об'єкт видаленого контакту. Повертає null, якщо контакт з таким id не знайдений.
+export async function removeContact(contactId) {
   try {
+    const contacts = await listContacts();
+    const contactIndex = contacts.findIndex(({ id }) => id === contactId);
+    if (contactIndex === -1) {
+      return null;
+    };
+    const deleteContact = contacts.splice(contactIndex, 1);
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+
+    return deleteContact[contactIndex];
 
   } catch (error) {
     console.log(error.message);
   }
 }
-removeContact('05olLMgyVQdWRwgKfg5J43456');
-async function addContact(name, email, phone) {
+
+export async function addContact(name, email, phone) {
   // ...твій код. Повертає об'єкт доданого контакту (з id).
+  try {
+    const contacts = await listContacts();
+    const newContact = {
+      id: nanoid(),
+      name,
+      email,
+      phone,
+    };
+
+    contacts.unshift(newContact);
+
+    await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
+
+    return newContact;
+
+  } catch (error) {
+    console.log(error.message);
+
+  }
 }
