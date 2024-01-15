@@ -7,6 +7,7 @@ program
   .option("-p, --phone <type>", "user phone");
 
 program.parse();
+import { getContactById, listContacts } from "./contacts.js";
 
 const options = program.opts();
 
@@ -15,10 +16,14 @@ async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
       // ...
+      const contacts = await listContacts();
+      console.table(contacts);
       break;
 
     case "get":
       // ... id
+      const contactById = await getContactById(id);
+      console.log(contactById);
       break;
 
     case "add":
