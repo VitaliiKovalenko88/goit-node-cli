@@ -40,8 +40,8 @@ export async function removeContact(contactId) {
     };
     const deleteContact = contacts.splice(contactIndex, 1);
     await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-
-    return deleteContact[contactIndex];
+;
+    return deleteContact[0];
 
   } catch (error) {
     console.log(error.message);
@@ -59,7 +59,7 @@ export async function addContact(name, email, phone) {
       phone,
     };
 
-    contacts.unshift(newContact);
+    contacts.push(newContact);
 
     await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
 
