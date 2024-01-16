@@ -40,7 +40,7 @@ export async function removeContact(contactId) {
     };
     const deleteContact = contacts.splice(contactIndex, 1);
     await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-;
+
     return deleteContact[0];
 
   } catch (error) {
